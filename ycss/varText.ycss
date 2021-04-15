@@ -1,0 +1,12 @@
+@value: 4px;
+@a: 5px;
+
+.a{
+  @a: 6px;
+  padding-top: @value;
+  margin: @a;
+}
+
+.b{
+  border: @a solid #333;
+}
