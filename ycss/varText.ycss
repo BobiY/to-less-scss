@@ -1,6 +1,7 @@
 @value: 4px;
 @a: 5px;
-
+@s: a;
+@c: @@s;
 .a{
   @a: 6px;
   padding-top: @value;
@@ -9,4 +10,5 @@
 
 .b{
   border: @a solid #333;
+  width: @c;
 }

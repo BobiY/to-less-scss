@@ -1,16 +1,17 @@
 import wapperNode from "../../nodeWapper/eachWapper";
-import {  VAR_SIGN, MATCH_LESS_VAR_REG } from "../../utils/constant";
-
+import {  VAR_SIGN, MATCH_LESS_VAR_REG, VAR_PREFIX_LESS } from "../../utils/constant";
+import parseValue from "./parseValue";
 function parseScope (node, parentScope = {}) {
   // 解析出作用域内的变量
   const newScope = { ...parentScope }
   const hocNode = wapperNode(node)
   // 直接自己的直接子元素
-  hocNode.eachAtRules(atrule => {
+  hocNode.eachAtRules(atrule => { //
+    // 这里需要考虑到一个变量 是 @@@value
     const { name, params } = atrule
     if (name.endsWith(VAR_SIGN)) {
-      newScope[name.slice(0, -1)] = params
-      atrule.remove()
+      newScope[name.slice(0, -1)] = params.startsWith( VAR_PREFIX_LESS ) ? parseValue(params, newScope) : params
+      atrule.remove() //
     }
   })
   hocNode.eachDecls(decl => {
